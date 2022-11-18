@@ -7,7 +7,7 @@ namespace ECommerceWebService.Controllers
 {
 	public class UsuarioController : Controller
 	{
-		private DataContext _ctx;
+		private readonly DataContext _ctx;
 		public UsuarioController(DataContext ctx)
 		{
 			_ctx = ctx;
