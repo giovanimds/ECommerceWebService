@@ -2,6 +2,7 @@
 using ECommerceWebService.Data;
 using ECommerceWebService.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ECommerceWebService.Controllers
 {
@@ -25,6 +26,18 @@ namespace ECommerceWebService.Controllers
 			return Created("", produto);
 		}
 
+		[HttpPost]
+		[Route("adicionar")]
+		public IActionResult AdicionarAoCarrinho([FromBody]int usuarioId, int produtoId)
+		{
+			_ctx.Carrinhos.Load();
+			Usuario usuario = _ctx.Usuarios.Find(usuarioId);
+			Produto produto = _ctx.Produtos.Find(produtoId);
+			usuario.Carrinho.Produtos.Add(produto);
+			_ctx.SaveChanges();
+			return Ok(usuario.Carrinho);
+		}
+		
 		public IActionResult AlterarProduto([FromBody] Produto produto)
 		{
 			_ctx.Produtos.Update(produto);

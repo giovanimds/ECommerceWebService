@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ECommerceWebService.Models
 {
@@ -6,11 +7,11 @@ namespace ECommerceWebService.Models
 	{
 		public int CarrinhoId { get; set; }
 		public ICollection<Produto> Produtos { get; set; }
-
-
-
-		public int UsuarioId { get; set; }
-		public Usuario Usuario { get; set; }
+		
+		
+		public virtual int UsuarioId { get; set; }
+		[ForeignKey("UsuarioId")]
+		public virtual Usuario Usuario { get; set; }
 
 	}
 }

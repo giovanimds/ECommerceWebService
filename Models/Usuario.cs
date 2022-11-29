@@ -1,4 +1,6 @@
-﻿namespace ECommerceWebService.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace ECommerceWebService.Models
 {
 	public class Usuario
 	{
@@ -8,5 +10,11 @@
 		public string Senha { get; set; }
 		public string Email { get; set; }
 		public string Funcao { get; set; }
+		
+		
+		public virtual int CarrinhoId { get; set; }
+		[ForeignKey("CarrinhoId")]
+		public virtual Carrinho Carrinho { get; set; }
+		
 	}
 }
