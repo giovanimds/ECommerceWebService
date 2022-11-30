@@ -15,23 +15,13 @@ namespace ECommerceWebService.Data
 		{
 			base.OnModelCreating(modelBuilder);
 
-			modelBuilder.Entity<Usuario>().HasOne<Carrinho>().WithOne(carrinho => carrinho.Usuario);
-
-			modelBuilder.Entity<Usuario>().HasMany<Historico>().WithOne(historico => historico.Usuario);
-
-			modelBuilder.Entity<Historico>()
-				.HasOne<Produto>()
-				.WithOne()
-				.HasForeignKey<Produto>();
-
-			modelBuilder.Entity<Carrinho>()
-				.HasMany(x => x.Produtos)
-				.WithMany(x => x.Carrinhos);
-
+			modelBuilder.Entity<Carrinho>().HasKey(x => x.CarrinhoId);
+			modelBuilder.Entity<Carrinho>().HasAlternateKey(x => x.Email);
 		}
 
 		public DbSet<Produto> Produtos { get; set; }
 		public DbSet<Usuario> Usuarios { get; set; }
+		
 		public DbSet<Historico> Historico { get; set; }
 		public DbSet<Carrinho> Carrinhos { get; set; }
 	}

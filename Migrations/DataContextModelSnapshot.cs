@@ -36,13 +36,13 @@ namespace ECommerceWebService.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("UsuarioId")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.HasKey("CarrinhoId");
 
-                    b.HasIndex("UsuarioId")
-                        .IsUnique();
+                    b.HasAlternateKey("Email");
 
                     b.ToTable("Carrinhos");
                 });
@@ -53,10 +53,10 @@ namespace ECommerceWebService.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("ProdutoId")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Email")
+                        .HasColumnType("TEXT");
 
-                    b.Property<int>("UsuarioId")
+                    b.Property<int>("ProdutoId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("HistoricoId");
@@ -64,14 +64,13 @@ namespace ECommerceWebService.Migrations
                     b.HasIndex("ProdutoId")
                         .IsUnique();
 
-                    b.HasIndex("UsuarioId");
-
                     b.ToTable("Historico");
                 });
 
             modelBuilder.Entity("ECommerceWebService.Models.Produto", b =>
                 {
                     b.Property<int>("ProdutoId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Marca")
@@ -97,9 +96,6 @@ namespace ECommerceWebService.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("CarrinhoId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("Cpf")
                         .HasColumnType("TEXT");
 
@@ -112,12 +108,7 @@ namespace ECommerceWebService.Migrations
                     b.Property<string>("Nome")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Senha")
-                        .HasColumnType("TEXT");
-
                     b.HasKey("UsuarioId");
-
-                    b.HasIndex("CarrinhoId");
 
                     b.ToTable("Usuarios");
                 });
@@ -137,17 +128,6 @@ namespace ECommerceWebService.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ECommerceWebService.Models.Carrinho", b =>
-                {
-                    b.HasOne("ECommerceWebService.Models.Usuario", "Usuario")
-                        .WithOne()
-                        .HasForeignKey("ECommerceWebService.Models.Carrinho", "UsuarioId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Usuario");
-                });
-
             modelBuilder.Entity("ECommerceWebService.Models.Historico", b =>
                 {
                     b.HasOne("ECommerceWebService.Models.Produto", "Produto")
@@ -156,35 +136,7 @@ namespace ECommerceWebService.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ECommerceWebService.Models.Usuario", "Usuario")
-                        .WithMany()
-                        .HasForeignKey("UsuarioId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Produto");
-
-                    b.Navigation("Usuario");
-                });
-
-            modelBuilder.Entity("ECommerceWebService.Models.Produto", b =>
-                {
-                    b.HasOne("ECommerceWebService.Models.Historico", null)
-                        .WithOne()
-                        .HasForeignKey("ECommerceWebService.Models.Produto", "ProdutoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("ECommerceWebService.Models.Usuario", b =>
-                {
-                    b.HasOne("ECommerceWebService.Models.Carrinho", "Carrinho")
-                        .WithMany()
-                        .HasForeignKey("CarrinhoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Carrinho");
                 });
 
             modelBuilder.Entity("ECommerceWebService.Models.Produto", b =>

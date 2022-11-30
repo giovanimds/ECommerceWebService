@@ -55,7 +55,7 @@ namespace ECommerceWebService
 
 			app.UseHttpsRedirection();
 			app.UseStaticFiles();
-
+			app.UseCors("CorsPolicy");
 			app.UseRouting();
 
 			app.UseAuthorization();

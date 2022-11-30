@@ -25,26 +25,18 @@ namespace ECommerceWebService.Controllers
 			_ctx.SaveChanges();
 			return Created("", produto);
 		}
-
-		[HttpPost]
-		[Route("adicionar")]
-		public IActionResult AdicionarAoCarrinho([FromBody]int usuarioId, int produtoId)
-		{
-			_ctx.Carrinhos.Load();
-			Usuario usuario = _ctx.Usuarios.Find(usuarioId);
-			Produto produto = _ctx.Produtos.Find(produtoId);
-			usuario.Carrinho.Produtos.Add(produto);
-			_ctx.SaveChanges();
-			return Ok(usuario.Carrinho);
-		}
 		
+		[HttpPatch]
+		[Route("alterar")]
 		public IActionResult AlterarProduto([FromBody] Produto produto)
 		{
 			_ctx.Produtos.Update(produto);
 			_ctx.SaveChanges();
 			return Ok(produto);
 		}
-
+		
+		[HttpDelete]
+		[Route("deletar")]
 		public IActionResult DeletarProduto([FromBody] Produto produto)
 		{
 			_ctx.Produtos.Remove(produto);
