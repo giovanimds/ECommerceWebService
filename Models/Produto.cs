@@ -16,6 +16,6 @@ namespace ECommerceWebService.Models
         [JsonIgnore]
 		public ICollection<Carrinho> Carrinhos { get; set; }
 		[JsonIgnore]
-		public Historico Historico { get; set; }
+		public ICollection<Historico> Historicos { get; set; }
 	}
 }

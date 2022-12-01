@@ -17,6 +17,10 @@ namespace ECommerceWebService.Data
 
 			modelBuilder.Entity<Carrinho>().HasKey(x => x.CarrinhoId);
 			modelBuilder.Entity<Carrinho>().HasAlternateKey(x => x.Email);
+
+			modelBuilder.Entity<Historico>()
+				.HasMany<Produto>(x => x.Produtos)
+				.WithMany(x => x.Historicos);
 		}
 
 		public DbSet<Produto> Produtos { get; set; }

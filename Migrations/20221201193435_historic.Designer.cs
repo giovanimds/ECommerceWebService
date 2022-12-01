@@ -2,14 +2,16 @@
 using ECommerceWebService.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ECommerceWebService.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20221201193435_historic")]
+    partial class historic
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -64,7 +66,6 @@ namespace ECommerceWebService.Migrations
             modelBuilder.Entity("ECommerceWebService.Models.Produto", b =>
                 {
                     b.Property<int>("ProdutoId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Marca")
@@ -107,21 +108,6 @@ namespace ECommerceWebService.Migrations
                     b.ToTable("Usuarios");
                 });
 
-            modelBuilder.Entity("HistoricoProduto", b =>
-                {
-                    b.Property<int>("HistoricosHistoricoId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("ProdutosProdutoId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("HistoricosHistoricoId", "ProdutosProdutoId");
-
-                    b.HasIndex("ProdutosProdutoId");
-
-                    b.ToTable("HistoricoProduto");
-                });
-
             modelBuilder.Entity("CarrinhoProduto", b =>
                 {
                     b.HasOne("ECommerceWebService.Models.Carrinho", null)
@@ -137,19 +123,20 @@ namespace ECommerceWebService.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("HistoricoProduto", b =>
+            modelBuilder.Entity("ECommerceWebService.Models.Produto", b =>
                 {
-                    b.HasOne("ECommerceWebService.Models.Historico", null)
-                        .WithMany()
-                        .HasForeignKey("HistoricosHistoricoId")
+                    b.HasOne("ECommerceWebService.Models.Historico", "Historico")
+                        .WithMany("Produtos")
+                        .HasForeignKey("ProdutoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ECommerceWebService.Models.Produto", null)
-                        .WithMany()
-                        .HasForeignKey("ProdutosProdutoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Historico");
+                });
+
+            modelBuilder.Entity("ECommerceWebService.Models.Historico", b =>
+                {
+                    b.Navigation("Produtos");
                 });
 #pragma warning restore 612, 618
         }

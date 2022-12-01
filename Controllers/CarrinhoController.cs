@@ -29,7 +29,7 @@ namespace ECommerceWebService.Controllers
             return Created("", carrinho);
         }
         
-        [HttpPost]
+        [HttpGet]
         [Route("adicionar/{produtoId:int}/{email}")]
         public IActionResult AdicionarAoCarrinho([FromRoute]int produtoId, string email)
         {
@@ -40,5 +40,25 @@ namespace ECommerceWebService.Controllers
             return Ok(carrinho);
         }
 
+        [HttpPatch]
+        [Route("renovar")]
+        public IActionResult AlterarCarrinho([FromBody] Carrinho carrinho)
+        {
+            _ctx.Carrinhos.Remove(carrinho);
+            _ctx.SaveChanges();
+            carrinho.CarrinhoId = 0;
+            _ctx.Carrinhos.Add(carrinho);
+            _ctx.SaveChanges();
+            return Ok(carrinho);
+        }
+        
+
+        [HttpGet]
+        [Route("buscar/{email}")]
+        public IActionResult BuscarCarrinho([FromRoute]string email) 
+            => Ok(_ctx.Carrinhos.Include(x => x.Produtos)
+                .FirstOrDefault(x => x.Email.Equals(email)));
+        
+        
     }
 }
