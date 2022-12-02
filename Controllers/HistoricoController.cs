@@ -35,10 +35,13 @@ namespace ECommerceWebService.Controllers
         }
 
         [HttpGet]
-        [Route("listar")]
-        public IActionResult listarHistorico([FromRoute] string email) => Ok(_ctx.Historico
-            .Include(x => x.Produtos)
-            .Where(x => x.Email.Equals(email)));
-
+        [Route("listar/{email}")]
+        public IActionResult listarHistorico([FromRoute] string email)
+        {
+            
+            return Ok(_ctx.Historico
+                .Include(x => x.Produtos)
+                .Where(x => x.Email.Equals(email)));
+        }
     }
 }

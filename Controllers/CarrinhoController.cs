@@ -44,10 +44,13 @@ namespace ECommerceWebService.Controllers
         [Route("renovar")]
         public IActionResult AlterarCarrinho([FromBody] Carrinho carrinho)
         {
+            Carrinho novoCarrinho = new Carrinho();
+            novoCarrinho.Email = carrinho.Email;
+            
             _ctx.Carrinhos.Remove(carrinho);
             _ctx.SaveChanges();
-            carrinho.CarrinhoId = 0;
-            _ctx.Carrinhos.Add(carrinho);
+            
+            _ctx.Carrinhos.Add(novoCarrinho);
             _ctx.SaveChanges();
             return Ok(carrinho);
         }
